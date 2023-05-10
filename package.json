@@ -1,0 +1,21 @@
+{
+  "name": "factory-prisma",
+  "version": "0.0.1",
+  "description": "Create factories, that create objects with Prisma",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {},
+  "author": "Ahmed Al-Jawahiry",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "prisma": "^4.14.0",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "prisma": ">=1.0.0 <5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.14.0"
+  }
+}

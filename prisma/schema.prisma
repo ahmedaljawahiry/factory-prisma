@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:prisma@localhost:5435/dev"
+}
+
+enum TeamType {
+  CLUB
+  NATIONAL
+}
+
+model Team {
+  id          Int      @id @default(autoincrement())
+  name        String
+  key         String   @unique
+  type        TeamType
+  website     String
+  motto       String?
+  description String?
+  stadium     Stadium? @relation(fields: [stadiumId], references: [id])
+  stadiumId   Int?
+  squad       Squad[]
+}
+
+enum SquadType {
+  SENIOR_MEN
+  SENIOR_WOMEN
+  ACADEMY
+}
+
+model Squad {
+  id      Int       @id @default(autoincrement())
+  team    Team      @relation(fields: [teamId], references: [id])
+  teamId  Int
+  type    SquadType
+  players Player[]
+}
+
+enum PlayerPosition {
+  GK
+  LB
+  CB
+  RB
+  DM
+  CM
+  AM
+  LW
+  RW
+  ST
+}
+
+model Player {
+  id       Int            @id @default(autoincrement())
+  name     String
+  nickname String?
+  age      Int
+  key      String         @unique
+  position PlayerPosition
+  squad    Squad?         @relation(fields: [squadId], references: [id])
+  squadId  Int?
+}
+
+model Stadium {
+  id       Int    @id @default(autoincrement())
+  name     String
+  key      String @unique
+  capacity Int
+  pitch    Pitch?
+  team     Team[]
+}
+
+model Pitch {
+  id          Int     @id @default(autoincrement())
+  stadium     Stadium @relation(fields: [stadiumId], references: [id])
+  stadiumId   Int     @unique
+  surfaceType String
+  width       Int
+  length      Int
+}
