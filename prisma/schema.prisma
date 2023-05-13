@@ -56,7 +56,7 @@ model Player {
   id       Int            @id @default(autoincrement())
   name     String
   nickname String?
-  age      Int
+  dob      DateTime
   key      String         @unique
   position PlayerPosition
   squad    Squad?         @relation(fields: [squadId], references: [id])
@@ -72,11 +72,17 @@ model Stadium {
   team     Team[]
 }
 
+enum PitchType {
+  GRASS
+  HYBRID
+  ARTIFICIAL
+}
+
 model Pitch {
-  id          Int     @id @default(autoincrement())
-  stadium     Stadium @relation(fields: [stadiumId], references: [id])
-  stadiumId   Int     @unique
-  surfaceType String
-  width       Int
-  length      Int
+  id          Int       @id @default(autoincrement())
+  stadium     Stadium   @relation(fields: [stadiumId], references: [id])
+  stadiumId   Int       @unique
+  surfaceType PitchType
+  width       Float
+  length      Float
 }

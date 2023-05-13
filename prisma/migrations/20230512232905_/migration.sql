@@ -7,6 +7,9 @@ CREATE TYPE "SquadType" AS ENUM ('SENIOR_MEN', 'SENIOR_WOMEN', 'ACADEMY');
 -- CreateEnum
 CREATE TYPE "PlayerPosition" AS ENUM ('GK', 'LB', 'CB', 'RB', 'DM', 'CM', 'AM', 'LW', 'RW', 'ST');
 
+-- CreateEnum
+CREATE TYPE "PitchType" AS ENUM ('GRASS', 'HYBRID', 'ARTIFICIAL');
+
 -- CreateTable
 CREATE TABLE "Team" (
     "id" SERIAL NOT NULL,
@@ -35,7 +38,7 @@ CREATE TABLE "Player" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "nickname" TEXT,
-    "age" INTEGER NOT NULL,
+    "dob" TIMESTAMP(3) NOT NULL,
     "key" TEXT NOT NULL,
     "position" "PlayerPosition" NOT NULL,
     "squadId" INTEGER,
@@ -57,9 +60,9 @@ CREATE TABLE "Stadium" (
 CREATE TABLE "Pitch" (
     "id" SERIAL NOT NULL,
     "stadiumId" INTEGER NOT NULL,
-    "surfaceType" TEXT NOT NULL,
-    "width" INTEGER NOT NULL,
-    "length" INTEGER NOT NULL,
+    "surfaceType" "PitchType" NOT NULL,
+    "width" DOUBLE PRECISION NOT NULL,
+    "length" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Pitch_pkey" PRIMARY KEY ("id")
 );

@@ -1,50 +1,85 @@
-import prisma from "../prisma";
-import { PlayerPosition } from "@prisma/client";
-
-interface PrismaTable {
+/**
+ * Base interface, for the minimum required type. I.e. a Prisma model with a create() function.
+ */
+interface ModelBase {
   create: (args: { data: any }) => any;
 }
 
-type CreateData<Table extends PrismaTable> = Parameters<
-  Table["create"]
+/**
+ * Required fields, passed as "data" to the Model's create() method.
+ */
+type CreateData<Model extends ModelBase> = Parameters<
+  Model["create"]
 >[0]["data"];
 
-type CreateResult<Table extends PrismaTable> = Promise<
-  ReturnType<Table["create"]>
+/**
+ * The result of the Model's create() method, i.e. the created instance.
+ */
+type CreateResult<Model extends ModelBase> = Promise<
+  ReturnType<Model["create"]>
 >;
 
-type Factory<Table extends PrismaTable> = {
-  fields: (overrides?: Partial<CreateData<Table>>) => CreateData<Table>;
-  instance: (overrides?: Partial<CreateData<Table>>) => CreateResult<Table>;
-};
 /**
- * Creates a Factory instance, for creating fields or instances of a table.
- * @param tableClient - Prisma client for the table: prisma.<name>.
+ * A factory instance, with fields() and instance() functions typed generically.
+ */
+type Factory<Model extends ModelBase> = {
+  fields: (overrides?: Partial<CreateData<Model>>) => CreateData<Model>;
+  instance: (overrides?: Partial<CreateData<Model>>) => CreateResult<Model>;
+};
+
+/**
+ * Creates a Factory instance, for creating fields or instances of a Model.
+ *
+ * @param model - Prisma client for the Model: prisma.<modelName>.
  * @param fieldsFactory - function for creating fields for the instance.
  */
-export function factory<Table extends PrismaTable>(
-  tableClient: Table,
-  fieldsFactory: Factory<Table>["fields"]
-): Factory<Table> {
-  const fieldsFunc: Factory<Table>["fields"] = (overrides) => ({
+export function factory<Model extends ModelBase>(
+  model: Model,
+  fieldsFactory: Factory<Model>["fields"]
+): Factory<Model> {
+  const fieldsFunc: Factory<Model>["fields"] = (overrides) => ({
     ...fieldsFactory(),
     ...overrides,
   });
 
   return {
     fields: fieldsFunc,
-    instance: (overrides) =>
-      tableClient.create({ data: fieldsFunc(overrides) }),
+    instance: (overrides) => model.create({ data: fieldsFunc(overrides) }),
   };
 }
 
-// EXAMPLE:
-// const playerFactory = factory(prisma.player, () => ({
-//   name: "test",
-//   age: 24,
-//   key: "test",
-//   position: PlayerPosition.ST,
-// }));
-//
-// const fields = playerFactory.fields({ name: "test2" });
-// const obj = await playerFactory.instance();
+/**
+ * Basic helper functions, for generating random data.
+ */
+export const random: {
+  int: (max?: number) => number;
+  float: () => number;
+  string: () => string;
+  date: () => Date;
+  url: () => string;
+} = {
+  /**
+   * Returns a random integer, with an (optional) maximum.
+   */
+  int: (max = 500) => Math.ceil(Math.random() * max),
+  /**
+   * Returns a random float.
+   */
+  float: () => Math.random(),
+  /**
+   * Returns a string, made up of 11 random chars.
+   */
+  string: () => Math.random().toString(36).slice(2),
+  /**
+   * Returns a random date in the past.
+   */
+  date: () => {
+    const maxDate = Date.now();
+    const timestamp = Math.floor(Math.random() * maxDate);
+    return new Date(timestamp);
+  },
+  /**
+   * Returns a URL in the form: https://<random-string>.com
+   */
+  url: () => `https://${Math.random().toString(36).slice(2)}.com`,
+};
