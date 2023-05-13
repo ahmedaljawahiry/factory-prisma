@@ -1,14 +1,22 @@
 {
   "name": "factory-prisma",
   "version": "0.0.1",
-  "description": "Create factories, that create objects with Prisma",
+  "author": "Ahmed Al-Jawahiry",
+  "license": "MIT",
+  "description": "Create factories, that create objects with Prisma.",
+  "repository": "https://github.com/ahmedaljawahiry/factory-prisma",
+  "keywords": [
+    "prisma",
+    "factory",
+    "orm",
+    "tests",
+    "testing-tools"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest --config ./tests/vitest.config.ts --coverage"
   },
-  "author": "Ahmed Al-Jawahiry",
-  "license": "MIT",
   "devDependencies": {
     "@prisma/client": "^4.14.0",
     "@vitest/coverage-c8": "^0.31.0",
