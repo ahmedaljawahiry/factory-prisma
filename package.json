@@ -16,6 +16,7 @@
   "types": "dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
+    "migrate": "npx prisma migrate dev",
     "test": "vitest --config ./tests/vitest.config.ts --coverage"
   },
   "devDependencies": {

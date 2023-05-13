@@ -6,8 +6,12 @@ export default defineConfig({
     threads: false, // tests use a real DB, so parallel runs are a no-go
     setupFiles: "tests/setup-tests.ts",
     coverage: {
-      all: true,
+      provider: "c8",
       include: ["src/**"],
+      lines: 100,
+      functions: 100,
+      branches: 100,
+      statements: 100,
     },
   },
 });

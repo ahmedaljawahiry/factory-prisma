@@ -1,5 +1,7 @@
 # factory-prisma
 
+[![Test](https://github.com/ahmedaljawahiry/factory-prisma/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ahmedaljawahiry/factory-prisma/actions/workflows/test.yaml)
+[![Coverage](https://img.shields.io/badge/coverage%20-100%25-brightgreen.svg)](https://github.com/ahmedaljawahiry/factory-prisma/actions/workflows/test.yaml)
 [![npm version](https://img.shields.io/npm/v/factory-prisma.svg)](https://www.npmjs.com/package/factory-prisma)
 [![npm license](https://img.shields.io/npm/l/factory-prisma.svg)](https://www.npmjs.com/package/factory-prisma/blob/main/LICENSE)
 
