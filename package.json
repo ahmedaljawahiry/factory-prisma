@@ -1,6 +1,6 @@
 {
   "name": "factory-prisma",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Ahmed Al-Jawahiry",
   "license": "MIT",
   "description": "Create factories, that create objects with Prisma.",
@@ -14,6 +14,7 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
     "test": "vitest --config ./tests/vitest.config.ts --coverage"
   },
