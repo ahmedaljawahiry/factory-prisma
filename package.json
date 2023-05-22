@@ -1,6 +1,6 @@
 {
   "name": "factory-prisma",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Ahmed Al-Jawahiry",
   "license": "MIT",
   "description": "Create factories, that create objects with Prisma.",
