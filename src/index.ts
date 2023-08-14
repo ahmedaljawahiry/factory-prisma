@@ -38,7 +38,7 @@ export function factory<Model extends ModelBase>(
   fieldsFactory: Factory<Model>["fields"]
 ): Factory<Model> {
   const fieldsFunc: Factory<Model>["fields"] = (overrides) => ({
-    ...fieldsFactory(),
+    ...fieldsFactory(overrides),
     ...overrides,
   });
 
