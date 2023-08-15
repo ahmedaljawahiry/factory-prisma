@@ -1,7 +1,9 @@
 /**
  * Tests verifying the fields() function.
  */
+import { PlayerPosition } from "@prisma/client";
 import { expect, test } from "vitest";
+import db from "../prisma";
 import {
   PitchFactory,
   PlayerFactory,
@@ -9,6 +11,7 @@ import {
   StadiumFactory,
   TeamFactory,
 } from "../prisma/factories";
+import { factory, random } from "../src";
 
 test("no relation", () => {
   const team = TeamFactory.fields();
@@ -71,4 +74,21 @@ test("with relation values", () => {
   expect(stadium.pitch?.create?.surfaceType).toBe("GRASS");
   expect(stadium.pitch?.create?.width).toBe(68);
   expect(stadium.pitch?.create?.length).toBe(105);
+});
+
+test.each([
+  [{ name: "Saka" }, PlayerPosition.RW],
+  [{ name: "Raya" }, PlayerPosition.GK],
+  [undefined, PlayerPosition.GK],
+])("with conditional (%p)", (override, result) => {
+  const conditionalFactory = factory(db.player, ({ name }) => ({
+    key: random.string(),
+    name: random.string(),
+    dob: random.date(),
+    position: name === "Saka" ? PlayerPosition.RW : PlayerPosition.GK,
+  }));
+
+  const player = conditionalFactory.fields(override);
+
+  expect(player.position).toBe(result);
 });

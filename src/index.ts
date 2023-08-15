@@ -35,10 +35,10 @@ type Factory<Model extends ModelBase> = {
  */
 export function factory<Model extends ModelBase>(
   model: Model,
-  fieldsFactory: Factory<Model>["fields"]
+  fieldsFactory: (overrides: Partial<CreateData<Model>>) => CreateData<Model>
 ): Factory<Model> {
   const fieldsFunc: Factory<Model>["fields"] = (overrides) => ({
-    ...fieldsFactory(),
+    ...fieldsFactory(overrides ?? {}),
     ...overrides,
   });
 
