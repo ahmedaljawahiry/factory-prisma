@@ -81,12 +81,11 @@ test.each([
   [{ name: "Raya" }, PlayerPosition.GK],
   [undefined, PlayerPosition.GK],
 ])("with conditional (%p)", (override, result) => {
-  const conditionalFactory = factory(db.player, (overrides) => ({
+  const conditionalFactory = factory(db.player, ({ name }) => ({
     key: random.string(),
     name: random.string(),
     dob: random.date(),
-    position:
-      overrides?.name === "Saka" ? PlayerPosition.RW : PlayerPosition.GK,
+    position: name === "Saka" ? PlayerPosition.RW : PlayerPosition.GK,
   }));
 
   const player = conditionalFactory.fields(override);
